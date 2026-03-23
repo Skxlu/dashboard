@@ -8,40 +8,12 @@ import nmap
 import os
 import platform
 import datetime
-import requests
 from modules import logs
 
 app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEVICE_FILE = os.path.join(BASE_DIR, "devices.json")
-LOG_FILE = os.path.join(BASE_DIR, "log.json")
-
-def load_logs():
-    if not os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "w") as f:
-            json.dump([], f)
-    with open(LOG_FILE) as f:
-        return json.load(f)
-
-def save_logs(logs):
-    with open(LOG_FILE, "w") as f:
-        json.dump(logs, f, indent=2)
-
-def add_log(action, ip=None, info=""):
-    logs = load_logs()
-
-    logs.insert(0, {   # neueste oben
-        "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "action": action,
-        "ip": ip or "-",
-        "info": info
-    })
-
-    # Optional: max 200 Logs speichern
-    logs = logs[:200]
-
-    save_logs(logs)
 
 # ----------------------
 # Helferfunktionen
@@ -174,7 +146,7 @@ def status():
 def wake():
     mac = request.form["mac"]
     send_magic_packet(mac)
-    add_log("WAKE", info=f"MAC: {mac}")
+    logs.add_log("WAKE", info=f"MAC: {mac}")
     return ('', 204)
 
 #----------------------------------------------------------------------------------------------
@@ -185,7 +157,7 @@ def shutdown():
     user = request.form["user"]
     password = request.form["password"]
     ssh_shutdown(ip, user, password)
-    add_log("SHUTDOWN", ip, f"user: {user}")
+    logs.add_log("SHUTDOWN", ip, f"user: {user}")
     return ('', 204)
 
 #----------------------------------------------------------------------------------------------
@@ -193,7 +165,7 @@ def shutdown():
 @app.route("/scan", methods=["POST"])
 def scan():
     scan_network()
-    add_log("SCAN", info="Netzwerk gescannt")
+    logs.add_log("SCAN", info="Netzwerk gescannt")
     return ('', 204)
 
 #----------------------------------------------------------------------------------------------
@@ -249,7 +221,7 @@ def edit_device():
 
             # 🔥 Log nur wenn etwas geändert wurde
             if changes:
-                add_log("EDIT", ip, " | ".join(changes))
+                logs.add_log("EDIT", ip, " | ".join(changes))
 
             break
 
@@ -276,13 +248,13 @@ def delete_device():
 
     # 🔥 Logging mit Name + MAC
     if deleted_device:
-        add_log(
+        logs.add_log(
             "DELETE",
             ip,
             f"{deleted_device.get('name','Unbekannt')} entfernt (MAC: {deleted_device.get('mac','-')})"
         )
     else:
-        add_log("DELETE", ip, "Gerät nicht gefunden")
+        logs.add_log("DELETE", ip, "Gerät nicht gefunden")
 
     return ('', 204)
 
@@ -313,7 +285,7 @@ def systemctl_status():
             return jsonify({"error": "Device not found and no SSH credentials provided"})
         ssh_user = ssh_user_input
         ssh_pass = ssh_pass_input
-    add_log("SERVICE_CHECK", ip, f"Service: {service}")
+    logs.add_log("SERVICE_CHECK", ip, f"Service: {service}")
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -339,13 +311,13 @@ def logs_page():
 
 @app.route("/api/logs/clear", methods=["POST"])
 def clear_logs():
-    save_logs([])
-    add_log("CLEAR", info="Logs wurden gelöscht")
+    logs.save_logs([])
+    logs.add_log("CLEAR", info="Logs wurden gelöscht")
     return jsonify({"status": "ok"})
 
 @app.route("/api/logs")
 def api_logs():
-    logs = load_logs()
+    log = logs.load_logs()
 
     page = int(request.args.get("page", 1))
     per_page = int(request.args.get("per_page", 20))
@@ -354,14 +326,14 @@ def api_logs():
     end = start + per_page
 
     return jsonify({
-        "logs": logs[start:end],
-        "total": len(logs),
+        "logs": log[start:end],
+        "total": len(log),
         "page": page,
-        "pages": (len(logs) + per_page - 1) // per_page
+        "pages": (len(log) + per_page - 1) // per_page
     })
 
 #----------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     scan_network()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)

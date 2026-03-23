@@ -1,4 +1,9 @@
 import os
+import json
+import datetime
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOG_FILE = os.path.join(BASE_DIR, "log.json")
 
 def load_logs():
     if not os.path.exists(LOG_FILE):
