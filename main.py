@@ -336,4 +336,4 @@ def api_logs():
 
 if __name__ == "__main__":
     scan_network()
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5000)
