@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ device.ip }} - Details</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>{{ device.name }}</h1>
+
+    <div class="form-group">
+      <label>Gerätename</label>
+      <input type="text" id="deviceName" value="{{ device.name }}">
+    </div>
+
+    <div class="form-group">
+      <label>IP-Adresse</label>
+      <input class="readonly" value="{{ device.ip }}" readonly>
+      <input type="hidden" id="device_ip" value="{{ device.ip }}">
+    </div>
+
+    <div class="form-group">
+      <label>MAC-Adresse</label>
+      <input class="readonly" value="{{ device.mac }}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>SSH Benutzer</label>
+      <input type="text" id="sshUser" value="{{ device.ssh_user }}">
+    </div>
+
+    <div class="form-group">
+      <label>SSH Passwort</label>
+      <div class="input-wrapper">
+        <input type="password" id="sshPass" value="{{ device.ssh_pass }}">
+      </div>
+
+      <div class="checkbox-wrapper">
+        <input type="checkbox" id="showPassword">
+        <label for="showPassword">Passwort anzeigen</label>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="save-btn" onclick="saveChanges()">Speichern</button>
+      <button class="delete-btn" onclick="delete_device('{{ device.ip }}')">Löschen</button>
+    </div>
+
+    <div class="power-btn">
+      <button class="power-off-btn" onclick="wake('{{ device.mac }}')">Power ON</button>
+      <button class="power-off-btn" data-ip="{{ device.ip }}" data-user="{{ device.ssh_user }}"
+        data-pass="{{ device.ssh_pass }}" onclick="shutdown(this.dataset.ip,this.dataset.user,this.dataset.pass)">Power
+        OFF</button>
+    </div>
+
+    <button class="close-btn-main" onclick="closePage()" style="margin-top:20px;">Zurück</button>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/details.js') }}"></script>
+
+</body>
+
+</html>

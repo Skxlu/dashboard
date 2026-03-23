@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Dashboard</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <h2>Network Dashboard</h2>
+
+    <div id="counter">Loading status...</div>
+
+    <div class="card">
+      <div class="table-container">
+
+        <table id="list">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>IP</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in devices %}
+            <tr id="row_{{d.ip.replace('.','_')}}" data-ip="{{ d.ip }}" data-name="{{ d.name }}">
+              <td>{{ d.name }}</td>
+              <td>{{ d.ip }}</td>
+              <td id="status_{{d.ip.replace('.','_')}}" class="status"></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="scanLAN()">Scan LAN</button>
+      <button onclick="refreshStatus()">Update Status</button>
+      <form action="systemctl">
+        <button type="submit">Service Monitoring</button>
+      </form>
+      <button onclick="location.href='/logs'">Logs</button>
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Monitor</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/systemctl.css') }}">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="container">
+
+<h2>Service Monitor</h2>
+
+<div class="form">
+
+<select id="deviceSelect" onchange="selectDevice()">
+    <option value="">Gerät auswählen...</option>
+</select>
+
+<input id="ip" placeholder="Oder manuell IP eingeben">
+<input id="service" placeholder="Service (z.B. ssh)">
+
+<div class="accordion" onclick="toggleAccordion(this)">
+    SSH Login (optional)
+</div>
+
+<div id="sshBox" class="accordion-content">
+    <input id="ssh_user" placeholder="SSH User">
+    <input id="ssh_pass" type="password" placeholder="SSH Passwort">
+</div>
+
+<button onclick="check()">Status prüfen</button>
+
+</div>
+
+<div class="status">
+    <div id="indicator" class="indicator unknown"></div>
+    <span id="statusText">Unbekannt</span>
+</div>
+
+<pre id="output"></pre>
+
+<button style="background:#404040;" onclick="window.location.href='/'">
+  ← Zurück
+</button>
+
+</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/systemctl.js') }}"></script>
+
+</body>
+</html>

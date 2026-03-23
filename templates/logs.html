@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Logs</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/logs.css') }}">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <div class="header">
+      <div class="header-text">
+        <h2>Activity Logs</h2>
+        <div class="subtitle">Alle Änderungen, Befehle und Aktionen im Überblick</div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <div class="toolbar-buttons">
+          <button class="secondary" onclick="window.location.href='/'">Dashboard</button>
+          <button class="primary" onclick="loadLogs()">Aktualisieren</button>
+        </div>
+
+        <div class="toolbar-danger">
+          <button class="danger" onclick="clearLogs()">Logs löschen</button>
+        </div>
+
+        <div class="toolbar-right">
+          <div class="counter" id="logCounter">Lade Logs...</div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button onclick="prevPage()">← Zurück</button>
+        <div class="page-info" id="pageInfo">Seite 1 / 1</div>
+        <button onclick="nextPage()">Weiter →</button>
+      </div>
+
+      <div id="logs" class="logs"></div>
+      <div class="footer-space"></div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/logs.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,171 @@
+body {
+    font-family: system-ui, Arial, sans-serif;
+    background: #1e1e1e;
+    color: white;
+    margin: 0;
+}
+
+/* Layout */
+.wrapper {
+    max-width: 720px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.container {
+    background: #242424;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Inputs */
+input {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2c2c2c;
+    color: white;
+    font-size: 0.95em;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    background: #333;
+    box-shadow: 0 0 0 2px rgba(76, 255, 118, 0.3);
+}
+
+input::placeholder {
+    color: #888;
+}
+
+/* Accordion */
+.accordion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: #2c2c2c;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: 0.2s;
+}
+
+.accordion:hover {
+    background: #353535;
+}
+
+.accordion::after {
+    content: "▼";
+    font-size: 0.7em;
+    opacity: 0.6;
+}
+
+.accordion.active::after {
+    content: "▲";
+}
+
+.accordion-content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Button */
+button {
+    margin-top: 5px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #4cff76;
+    color: #111;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #3ee666;
+}
+
+/* Status */
+.status {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 1.2em;
+}
+
+.indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px currentColor;
+}
+
+.running {
+    color: #4cff76;
+}
+
+.stopped {
+    color: #ff5c5c;
+}
+
+.unknown {
+    color: #777;
+}
+
+/* Output */
+pre {
+    background: #0d0d0d;
+    padding: 14px;
+    margin-top: 20px;
+    border-radius: 8px;
+    max-height: 260px;
+    overflow: auto;
+    font-size: 0.85em;
+    border: 1px solid #333;
+}
+
+select {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2c2c2c;
+    color: white;
+    font-size: 0.95em;
+}
+
+/* Mobile */
+@media (max-width:600px) {
+    .wrapper {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+}
