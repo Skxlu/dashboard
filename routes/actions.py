@@ -7,6 +7,7 @@ from modules import device as d
 from modules import logs
 from modules import shutdown as shutd
 
+
 actions_bp = Blueprint("actions", __name__)
 
 

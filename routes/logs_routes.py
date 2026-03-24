@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from modules import logs
 
+
 logs_bp = Blueprint("logs", __name__)
 
 

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from modules import device as d
 
+
 devices_bp = Blueprint("devices", __name__)
 
 

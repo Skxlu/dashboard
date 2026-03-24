@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from modules import device as d
 
+
 pages_bp = Blueprint("pages", __name__)
 
 
